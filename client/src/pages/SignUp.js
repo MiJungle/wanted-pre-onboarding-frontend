@@ -1,48 +1,50 @@
-import {Link} from "react-router-dom"
-import {useState, useCallback} from 'react'
-import '../App.css';
+import  {api}  from "../shared/api";
+import  {url}  from "../shared/url";
+import {Link, useNavigate} from "react-router-dom"
+import {useState,useCallback, useEffect} from 'react';
 
-function Login (){
-    const [email, setEmail] = useState('')
+function SignUp (){
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
     const [emailMessage, setEmailMessage] = useState('')
     const [isEmail, setIsEmail] = useState(false)
 
-    const [password, setPassword] = useState('')
     const [passwordMessage, setPasswordMessage] = useState('')
     const [isPassword, setIsPassword] = useState(false)
 
-    const onSubmit = useCallback(
+    const onSubmit = 
         async (e) => {
           e.preventDefault()
           try {
-            await axios
-              .post(REGISTER_USERS_URL, {
-                username: name,
-                password: password,
+            await api
+              .post(`${url.SignUp}`, 
+              {
                 email: email,
+                password: password,
+              },
+              {
+                headers: {
+                    "Content-Type": "application/json",
+                },
               })
               .then((res) => {
                 console.log('response:', res)
-                if (res.status === 200) {
-                  router.push('/sign_up/profile_start')
-                }
+                    navigate("/");
               })
           } catch (err) {
             console.error(err)
           }
-        },
-        [email, name, password, router]
-      )
-
-
+        };
+    
 //이메일
-  const onChangeEmail= useCallback((e) => {
+const onChangeEmail= useCallback((e) => {
     const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
     const emailCurrent = e.target.value
     setEmail(emailCurrent)
 
     if (!emailRegex.test(emailCurrent)) {
-        console.log(emailCurrent)
 
         setEmailMessage('이메일 형식이 올바르지 않습니다!')
         setIsEmail(false)
@@ -71,9 +73,14 @@ function Login (){
 
       }, [])
 
+    
+    
+        return (
+            <>
+            회원가입 페이지 입니다.
 
-    return (
-        <>
+        <form onSubmit= {onSubmit}>
+
         <div className="formbox">
           이메일<input
             onChange={ (e) => {onChangeEmail(e); } }
@@ -99,12 +106,10 @@ function Login (){
           )}
         </div>
         {isEmail && password.length>=8? 
-            <button className="activebton">제출</button> : <button className="unactivebtn">제출</button>}
-
-        <Link to="/createaccount"><button>회원 가입</button></Link>
-        
-
-        </>
-    )
+            <button type='sumbit' className="activebton" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
+        </form>
+            </>
+        )// )onClick= {()=>{navigate("/") }}
+    
 }
-export default Login;
+export default SignUp;
