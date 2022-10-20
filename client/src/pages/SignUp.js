@@ -31,7 +31,7 @@ function SignUp (){
               })
               .then((res) => {
                 console.log('response:', res)
-                    navigate("/");
+                navigate("/");
               })
           } catch (err) {
             console.error(err)
@@ -76,40 +76,36 @@ const onChangeEmail= useCallback((e) => {
     
     
         return (
-            <>
-            회원가입 페이지 입니다.
+        <div className="signup-form-container">
+          <form  className="signup-form" onSubmit= {onSubmit}>
+                 
+          <div> 회원가입 페이지 입니다.</div>
 
-        <form onSubmit= {onSubmit}>
-
-        <div className="formbox">
-          이메일<input
-            onChange={ (e) => {onChangeEmail(e); } }
-            passwordText=" "
-            title="이메일 확인"
-            placeholder="이메일"
-            typeTitle="emailConfirm"
-          />
-          {email.length >0 && (
-            <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>
-          )}
-        </div>
-        <div className="formbox">
-          비밀번호<input
-            onChange={(e)=> {onChangePassword(e);}}
-            passwordText=" "
-            title="비밀번호 확인"
-            placeholder="비밀번호"
-            typeTitle="passwordConfirm"
-          />
-          {password.length <=8 && (
-            <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>
-          )}
-        </div>
-        {isEmail && password.length>=8? 
-            <button type='sumbit' className="activebton" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
-        </form>
-            </>
-        )// )onClick= {()=>{navigate("/") }}
+            <div className="formbox">
+              <input
+                onChange={ (e) => {onChangeEmail(e); } }
+                placeholder="이메일"
+                typeTitle="emailConfirm"
+              />
+              {email.length >0 && (
+                <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>
+              )}
+            </div>
+            <div className="formbox">
+              <input
+                onChange={(e)=> {onChangePassword(e);}}
+                placeholder="비밀번호"
+                typeTitle="passwordConfirm"
+              />
+              {password.length <=8 && (
+                <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>
+              )}
+            </div>
+            {isEmail && password.length>=8? 
+                <button type='sumbit' className="activebton" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
+          </form>
+      </div>
+        )
     
 }
 export default SignUp;
