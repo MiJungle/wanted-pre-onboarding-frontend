@@ -19,6 +19,7 @@ function TodoList (){
         })
         .then((res) => {
           setTodoList(res.data);
+          console.log(res)
         })
         .catch((e) => {
           console.log("error = ", e);
@@ -35,6 +36,7 @@ function TodoList (){
   
     const onSubmit = async (event) => {
       event.preventDefault();
+      console.log("content",todoContent,todoList)
       api
         .post(
           `${url.Todo}`,
