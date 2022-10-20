@@ -1,15 +1,13 @@
 import  {api}  from "../shared/api";
 import  {url}  from "../shared/url";
 import { useEffect, useState } from "react";
-
-import { SmallBtn, TodoDiv,Checkbox,TodoText ,Input} from "./../style.js";
-
+import { SmallBtn, TodoDiv,Checkbox ,TodoText} from "./../style.js";
 
 
 function Todo ({ todoContent, getTodoList }) {
     const [clickEdit, setClickEdit] = useState(false);
     const [updateTodo, setUpdateTodo] = useState(todoContent.todo);
-    const [diableInput, setDisableInput] = useState('disable')
+    const [disableInput, setDisableInput] = useState('disable')
 
     useEffect(() => {
       setUpdateTodo(todoContent.todo);
@@ -81,8 +79,8 @@ function Todo ({ todoContent, getTodoList }) {
             onChange={handleCheck}
             />
             <TodoText
-            className = {`todo-text-${diableInput}`}
-            disabled={diableInput}
+            className = {`todo-text-${disableInput}`}
+            disabled={disableInput}
             value={updateTodo}
             onChange={(e) => setUpdateTodo(e.target.value)}
             completed='default'
@@ -98,8 +96,8 @@ function Todo ({ todoContent, getTodoList }) {
             onChange={handleCheck}
             />
             <TodoText 
-            className = {`todo-text-${diableInput}`}
-            disabled={diableInput}
+            className = {`todo-text-${disableInput}`}
+            disabled={disableInput}
             value={todoContent.todo}
             completed={todoContent.isCompleted ? "line-through" : "default"}
             />
@@ -111,4 +109,4 @@ function Todo ({ todoContent, getTodoList }) {
     );
   };
   
-  export default Todo;
+ export default Todo;
