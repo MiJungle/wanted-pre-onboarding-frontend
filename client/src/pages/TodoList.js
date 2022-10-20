@@ -3,8 +3,7 @@ import  {url}  from "../shared/url";
 import { useNavigate} from "react-router-dom"
 import { useEffect, useState } from "react";
 import Todo from "./Todo"
-import {     TodoListFormContainer,TodoListContainer,TodoListContainerInput,SmallBtn,TodoDiv } from "./../style.js"
-
+import { TodoListFormContainer,TodoListContainer,TodoListContainerInput,SmallBtn,TodoDiv } from "./../style.js"
 
 
 function TodoList (){

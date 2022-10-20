@@ -1,8 +1,7 @@
 import  {api}  from "../shared/api";
 import  {url}  from "../shared/url";
-import {Link, useNavigate} from "react-router-dom"
-import {useState,useCallback, useEffect} from 'react';
-import styled from "styled-components";
+import {useNavigate} from "react-router-dom"
+import {useState,useCallback} from 'react';
 import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn ,Input} from "./../style.js"
 
 function SignUp (){

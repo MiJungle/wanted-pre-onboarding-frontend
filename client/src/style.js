@@ -121,24 +121,13 @@ const Checkbox = styled.input`
     margin: 0 5px;
     width: 20px;
 `
-
 const TodoText = styled.input`
-    width: 100%;
-    background-color: #eee;
-    border: none;
-    padding: 12px 15px;
-    margin: 8px 0;
-
+border: ${({disabled })=> { return disabled ==="disable"? "none": "5px solid hsl(155, 71%, 53%)"}};
+width: 100%;
+background-color: #eee;
+padding: 12px 15px;
+margin: 8px 0;
 `
-
-//   input.todo-text {
-//     width: 100%;
-//   }
-//   input.todo-text- {
-//     border: 5px solid hsl(155, 71%, 53%);
-//     border-radius: 20px; 
-//   }
-
   
 
 export {
@@ -156,7 +145,6 @@ export {
     TodoDiv,
     Checkbox,
     TodoText
-
 };
 
 
