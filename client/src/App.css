@@ -1,14 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
 /* signup page */
-.signup-form-container {
+.signup-form-container , .signin-form-container {
   text-align: center;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Montserrat', sans-serif;
+
 }
 
-.signup-form {
+.signup-form , .signin-form{
   display: flex;
   flex-direction: column;
   width: 420px;
@@ -17,18 +21,136 @@
   padding-bottom: 20px;
   border-radius: 8px;
   background-color: white;
-  margin: 3px;
 }
 
-.formbox  {
+.formbox{
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+
 }
-.activebton {
-  background-color: green;
+.emailMessage , .passwordMessage{
+  font-size: 11px;
+}
+
+
+/* button {
+	border-radius: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+  margin-top: 7px;
+  width: 60%;
+  transition: transform 3ms ease-in;
+	text-transform: uppercase;
+  align-self: center;
+} */
+
+button:active {
+	transform: scale(0.95);
+}
+
+button:focus {
+	outline: none;
+}
+
+.activebtn {
+  background-color:hsl(155, 71%, 53%);
+  border: 1px solid  hsl(155, 71%, 53%);
+  color: white;
+  transition: transform 3ms ease-in;
+  border-radius: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+  margin-top: 7px;
+  width: 60%;
+  transition: transform 3ms ease-in;
+	text-transform: uppercase;
+  align-self: center;
+
 }
 
 .unactivebtn {
   background-color: lightgrey;
+  color: white;
+	border: 1px solid  lightgrey;
+  border-radius: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+  margin-top: 7px;
+  width: 60%;
+  transition: transform 3ms ease-in;
+	text-transform: uppercase;
+  align-self: center;
+
 }
 
+input {
+  background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 80%;
+}
+
+/* todo list page */
+
+.todo-list-form-container{
+  margin: 50px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  width: 30vw;
+  height: 60vh;
+  text-align: center;
+  justify-content: flex-start;
+  font-family: 'Montserrat', sans-serif;
+
+}
+.todo-list-container {
+  width: 100%;
+}
+.todo-list-container input {
+  width: 40%;
+
+}
+
+/* todo page */
+.todo {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  
+}
+input.checkbox {
+  margin: 0 5px;
+  width: 20px;
+}
+.edit , .delete , .save{
+  margin-left: 5px;
+  width: 60px;
+  height: 30px;
+	letter-spacing: 1px;
+  font-weight: bold;
+	padding: 1px 5px;
+  align-self: center;
+  border: none;
+  border-radius: 20px;
+}
+
+input.todo-text {
+  width: 100%;
+}
+input.todo-text- {
+  border: 5px solid hsl(155, 71%, 53%);
+  border-radius: 20px; 
+}

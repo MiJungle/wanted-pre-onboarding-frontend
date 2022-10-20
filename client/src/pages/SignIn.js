@@ -84,40 +84,36 @@ async (e) => {
 
 
     return (
-        <>
-        로그인 페이지 입니다.
-        <form onSubmit= {onSubmit}>
-          {errorMessage}
+      <div className="signin-form-container">       
+        <form  className="signin-form" onSubmit= {onSubmit}>
+        LOGIN
+          
         <div className="formbox">
-          이메일<input
+          <input
             onChange={ (e) => {onChangeEmail(e); } }
-            passwordText=" "
-            title="이메일 확인"
             placeholder="이메일"
             typeTitle="emailConfirm"
           />
           {email.length >0 && (
-            <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>
+            <span className="emailMessage">{emailMessage}</span>
           )}
         </div>
         <div className="formbox">
-          비밀번호<input
+          <input
             onChange={(e)=> {onChangePassword(e);}}
-            passwordText=" "
-            title="비밀번호 확인"
             placeholder="비밀번호"
             typeTitle="passwordConfirm"
           />
           {password.length <=8 && (
-            <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>
+            <span className="passwordMessage">{passwordMessage}</span>
           )}
         </div>
-            {/* // <button className="activebton" onClick={checkValue}>제출</button> : <button onClick={checkValue} className="unactivebtn">제출</button>} */}
-
-        <button type='sumbit'>로그인</button>
+            {errorMessage}
+            {isEmail && password.length>=8? 
+                <button type='sumbit' className="activebtn" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
         
         </form>
-        </>
+        </div>
     )
 }
 export default SignIn;

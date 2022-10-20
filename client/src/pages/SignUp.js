@@ -79,7 +79,7 @@ const onChangeEmail= useCallback((e) => {
         <div className="signup-form-container">
           <form  className="signup-form" onSubmit= {onSubmit}>
                  
-          <div> 회원가입 페이지 입니다.</div>
+          <div> SIGN UP</div>
 
             <div className="formbox">
               <input
@@ -88,7 +88,7 @@ const onChangeEmail= useCallback((e) => {
                 typeTitle="emailConfirm"
               />
               {email.length >0 && (
-                <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>
+                <div className="emailMessage">{emailMessage}</div>
               )}
             </div>
             <div className="formbox">
@@ -98,11 +98,11 @@ const onChangeEmail= useCallback((e) => {
                 typeTitle="passwordConfirm"
               />
               {password.length <=8 && (
-                <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>
+                <div className="passwordMessage">{passwordMessage}</div>
               )}
             </div>
             {isEmail && password.length>=8? 
-                <button type='sumbit' className="activebton" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
+                <button type='sumbit' className="activebtn" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
           </form>
       </div>
         )
