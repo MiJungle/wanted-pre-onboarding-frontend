@@ -1,47 +1,36 @@
 import  {api}  from "../shared/api";
 import  {url}  from "../shared/url";
-import { useNavigate} from "react-router-dom"
 import { useEffect, useState } from "react";
 
+function Todo ({ todoContent, getTodoList }) {
+    const [clickEdit, setClickEdit] = useState(false);
+    const [updateTodo, setUpdateTodo] = useState(todoContent.todo);
+    const [diableInput, setDisableInput] = useState('disable')
 
-function Todo (){
-    const [todo, setTodo] = useState("");
-    const [todoList, setTodoList] = useState([]);
-    const [ableInput, setAbleInput] = useState(false);
-    const [updateTodo, setUpdateTodo] = useState(todo.todo)
-    const navigate = useNavigate();
+    useEffect(() => {
+      setUpdateTodo(todoContent.todo);
+    }, []);
   
-  
-    const getTodoList = () => {
+    const DeleteTodo = () => {
       api
-        .get(`${url.Todo}`, {
+        .delete(`${url.Todo}/${todoContent.id}`, {
           headers: {
             Authorization: `Bearer ${url.ACCESS_TOKEN}`,
           },
         })
         .then((res) => {
-          setTodoList(res.data);
+          getTodoList();
         })
-        .catch((e) => {
-          console.log("error = ", e);
-        });
+        .catch((error) => {});
     };
   
-    useEffect(() => {
-      if (!localStorage.getItem(url.TOKEN_NAME)) {
-        navigate("/");
-      } else {
-        getTodoList();
-      }
-    }, []);
-  
-    const onSubmit = async (event) => {
-      event.preventDefault();
-      api
-        .post(
-          `${url.Todo}`,
+    const editTodo = () => {
+        api
+        .put(
+          `${url.Todo}/${todoContent.id}`,
           {
-            todo: todo,
+            todo: updateTodo,
+            isCompleted: todoContent.isCompleted,
           },
           {
             headers: {
@@ -51,77 +40,69 @@ function Todo (){
           }
         )
         .then((res) => {
-          setTodoList([...todoList, res.data]);
-          setTodo("");
+            setClickEdit(false);
+            setDisableInput('disable');
+            getTodoList();
         })
-        .catch((e) => {
-          console.log("error = ", e);
-        });
+        .catch((error) => {});
     };
-    console.log("todoList = ", todoList);
-
-    const deleteTodo = () => {
-    api
-      .delete(`${url.Todo}/${todo.id}`, {
-        headers: {
-          Authorization: `Bearer ${url.ACCESS_TOKEN}`,
-        },
-      })
-      .then((res) => {
-        getTodoList();
-      })
-      .catch((error) => {});
-  };
-
-  const editTodo = () => {
-    api
-      .put(
-        `${url.Todo}/${todo.id}`,
-        {
-          todo: updateTodo,
-          isCompleted: todo.isCompleted,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${url.ACCESS_TOKEN}`,
-            "Content-Type": "application/json",
+  
+    const handleCheck = (event) => {
+      api
+        .put(
+          `${url.Todo}/${todoContent.id}`,
+          {
+            todo: todoContent.todo,
+            isCompleted: event.target.checked,
           },
-        }
-      )
-      .then((res) => {
-        setAbleInput(false);
-        getTodoList();
-      })
-      .catch((error) => {});
-  };
-
+          {
+            headers: {
+              Authorization: `Bearer ${url.ACCESS_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          getTodoList();
+        })
+        .catch((error) => {});
+    };
     return (
-        <>
-        <form onSubmit= {onSubmit} >
-        <div> To Do List 입니다</div>
-
-        <input
-            type='text'
-            value={todo}
-            placeholder='To Do List를 작성해주세요'
-            onChange={(e) => {
-              setTodo(e.target.value);
-            }}
-            required
-          />
-
-          <div className="todo">
-          {todoList.map((todo) => { return (
-            <div id={todo.id} >{todo.todo}</div>
-          )
-        })}
-
-            </div>
-        <button type='submit'>수정</button>
-
-      <button type='submit'>저장</button>
-        </form>
-        </>
-    )
-}
-export default  Todo;
+      <div>
+        {clickEdit ? (
+          <div>
+            <input
+            type='checkbox'
+            checked={todoContent.isCompleted}
+            onChange={handleCheck}
+            />
+            <input
+            disabled={diableInput}
+            value={updateTodo}
+            onChange={(e) => setUpdateTodo(e.target.value)}
+            completed='default'
+            />
+            <button onClick={()=>{editTodo();setDisableInput(''); }}> 수정</button>
+            <button onClick={() => {setClickEdit(false); setDisableInput('disable'); }} >취소</button>
+          </div>
+        ) : (
+          <div>
+            <input
+            type='checkbox'
+            checked={todoContent.isCompleted}
+            onChange={handleCheck}
+            />
+            <input
+            disabled={diableInput}
+            value={todoContent.todo}
+            completed={todoContent.isCompleted ? "line-through" : "default"}
+            />
+            <button onClick={()=>{setClickEdit(true);setDisableInput(''); }} >수정</button>
+            <button onClick={DeleteTodo} >{" "}삭제</button>
+          </div>
+        )}
+      </div>
+    );
+  };
+  
+  export default Todo;
