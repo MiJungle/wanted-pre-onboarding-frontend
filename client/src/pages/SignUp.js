@@ -2,6 +2,8 @@ import  {api}  from "../shared/api";
 import  {url}  from "../shared/url";
 import {Link, useNavigate} from "react-router-dom"
 import {useState,useCallback, useEffect} from 'react';
+import styled from "styled-components";
+import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn ,Input} from "./../style.js"
 
 function SignUp (){
 
@@ -76,36 +78,37 @@ const onChangeEmail= useCallback((e) => {
     
     
         return (
-        <div className="signup-form-container">
-          <form  className="signup-form" onSubmit= {onSubmit}>
-                 
+          <SignupContainer>
+            <SignupForm  onSubmit= {onSubmit}>
           <div> SIGN UP</div>
 
-            <div className="formbox">
-              <input
+            <SignupFormbox>
+              <Input
                 onChange={ (e) => {onChangeEmail(e); } }
                 placeholder="이메일"
                 typeTitle="emailConfirm"
               />
               {email.length >0 && (
-                <div className="emailMessage">{emailMessage}</div>
+                <WarningMessage>{emailMessage}</WarningMessage>
               )}
-            </div>
-            <div className="formbox">
-              <input
+            </SignupFormbox>
+            <SignupFormbox>
+              <Input
                 onChange={(e)=> {onChangePassword(e);}}
                 placeholder="비밀번호"
                 typeTitle="passwordConfirm"
               />
               {password.length <=8 && (
-                <div className="passwordMessage">{passwordMessage}</div>
+                <WarningMessage>{passwordMessage}</WarningMessage>
               )}
-            </div>
+            </SignupFormbox>
             {isEmail && password.length>=8? 
-                <button type='sumbit' className="activebtn" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
-          </form>
-      </div>
+                <ActiveBtn>회원가입</ActiveBtn>: <UnactiveBtn>회원가입</UnactiveBtn>}
+          </SignupForm>
+      </SignupContainer>
         )
     
 }
+
 export default SignUp;
+

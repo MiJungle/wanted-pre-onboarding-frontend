@@ -3,6 +3,8 @@ import  {url}  from "../shared/url";
 import { useNavigate} from "react-router-dom"
 import { useEffect, useState } from "react";
 import Todo from "./Todo"
+import {     TodoListFormContainer,TodoListContainer,TodoListContainerInput,SmallBtn,TodoDiv } from "./../style.js"
+
 
 
 function TodoList (){
@@ -60,11 +62,11 @@ function TodoList (){
     };
 
     return (
-      <div className="todo-list-form-container">
-        <form className="todo-list-container" onSubmit= {onSubmit} >
+      <TodoListFormContainer>
+        <TodoListContainer onSubmit= {onSubmit} >
           To Do List 
           <div > 
-            <input
+            <TodoListContainerInput
                 type='text'
                 placeholder='To Do List를 작성해주세요'
                 onChange={(e) => {
@@ -72,21 +74,21 @@ function TodoList (){
                 }}
                 required
               />
-            <button className= "save"  type='submit'>저장</button>
+            <SmallBtn>저장</SmallBtn>
 
               <div className="todo-list">
               {todoList.map((todo) => { return (
-                <div className="todo">
+                <TodoDiv>
                     <Todo todoContent={todo} getTodoList={getTodoList} ></Todo>
-                </div>
+                </TodoDiv>
               )
             })}
 
                 </div>
 
           </div>
-        </form>
-      </div>
+        </TodoListContainer>
+      </TodoListFormContainer>
     )
 }
 export default  TodoList;

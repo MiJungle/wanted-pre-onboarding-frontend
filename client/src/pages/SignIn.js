@@ -2,7 +2,9 @@ import  {api}  from "../shared/api";
 import  {url}  from "../shared/url";
 import {useNavigate} from "react-router-dom"
 import {useState, useCallback, useEffect} from 'react'
+import styled from "styled-components";
 import '../App.css';
+import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input } from "./../style.js"
 
 function SignIn (){
     const navigate = useNavigate();
@@ -84,36 +86,36 @@ async (e) => {
 
 
     return (
-      <div className="signin-form-container">       
-        <form  className="signin-form" onSubmit= {onSubmit}>
+      <SignupContainer>       
+        <SignupForm onSubmit= {onSubmit}>
         LOGIN
           
-        <div className="formbox">
-          <input
+        <SignupFormbox>
+          <Input
             onChange={ (e) => {onChangeEmail(e); } }
             placeholder="이메일"
             typeTitle="emailConfirm"
           />
           {email.length >0 && (
-            <span className="emailMessage">{emailMessage}</span>
+            <WarningMessage>{emailMessage}</WarningMessage>
           )}
-        </div>
-        <div className="formbox">
-          <input
+        </SignupFormbox>
+        <SignupFormbox>
+          <Input
             onChange={(e)=> {onChangePassword(e);}}
             placeholder="비밀번호"
             typeTitle="passwordConfirm"
           />
           {password.length <=8 && (
-            <span className="passwordMessage">{passwordMessage}</span>
+            <WarningMessage>{passwordMessage}</WarningMessage>
           )}
-        </div>
+        </SignupFormbox>
             {errorMessage}
             {isEmail && password.length>=8? 
-                <button type='sumbit' className="activebtn" >회원가입</button>: <button  type='sumbit' className="unactivebtn">회원가입</button>}
+                <ActiveBtn >회원가입</ActiveBtn>: <UnactiveBtn>회원가입</UnactiveBtn>}
         
-        </form>
-        </div>
+        </SignupForm>
+        </SignupContainer>
     )
 }
 export default SignIn;
