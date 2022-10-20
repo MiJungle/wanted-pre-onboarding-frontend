@@ -60,32 +60,33 @@ function TodoList (){
     };
 
     return (
-        <>
-        <form onSubmit= {onSubmit} >
-        <div> To Do List 입니다</div>
+      <div className="todo-list-form-container">
+        <form className="todo-list-container" onSubmit= {onSubmit} >
+          To Do List 
+          <div > 
+            <input
+                type='text'
+                placeholder='To Do List를 작성해주세요'
+                onChange={(e) => {
+                  setTodoContent(e.target.value);
+                }}
+                required
+              />
+            <button className= "save"  type='submit'>저장</button>
 
-        <input
-            type='text'
-            placeholder='To Do List를 작성해주세요'
-            onChange={(e) => {
-              setTodoContent(e.target.value);
-            }}
-            required
-          />
+              <div className="todo">
+              {todoList.map((todo) => { return (
+                <div>
+                    <Todo todoContent={todo} getTodoList={getTodoList} ></Todo>
+                </div>
+              )
+            })}
 
-          <div className="todo">
-          {todoList.map((todo) => { return (
-            <div>
-                <Todo todoContent={todo} getTodoList={getTodoList} ></Todo>
-            </div>
-          )
-        })}
+                </div>
 
-            </div>
-
-      <button type='submit'>저장</button>
+          </div>
         </form>
-        </>
+      </div>
     )
 }
 export default  TodoList;

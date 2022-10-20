@@ -70,35 +70,39 @@ function Todo ({ todoContent, getTodoList }) {
     return (
       <div>
         {clickEdit ? (
-          <div>
+          <div className="todo">
             <input
+            className="checkbox"
             type='checkbox'
             checked={todoContent.isCompleted}
             onChange={handleCheck}
             />
             <input
+            className = {`todo-text-${diableInput}`}
             disabled={diableInput}
             value={updateTodo}
             onChange={(e) => setUpdateTodo(e.target.value)}
             completed='default'
             />
-            <button onClick={()=>{editTodo();setDisableInput(''); }}> 수정</button>
-            <button onClick={() => {setClickEdit(false); setDisableInput('disable'); }} >취소</button>
+            <button className= "edit" onClick={()=>{editTodo();setDisableInput(''); }}> 수정</button>
+            <button className= "delete" onClick={() => {setClickEdit(false); setDisableInput('disable'); }} >취소</button>
           </div>
         ) : (
-          <div>
+          <div className="todo">
             <input
+            className="checkbox"
             type='checkbox'
             checked={todoContent.isCompleted}
             onChange={handleCheck}
             />
-            <input
+            <input 
+            className = {`todo-text-${diableInput}`}
             disabled={diableInput}
             value={todoContent.todo}
             completed={todoContent.isCompleted ? "line-through" : "default"}
             />
-            <button onClick={()=>{setClickEdit(true);setDisableInput(''); }} >수정</button>
-            <button onClick={DeleteTodo} >{" "}삭제</button>
+            <button className= "edit" onClick={()=>{setClickEdit(true);setDisableInput(''); }} >수정</button>
+            <button className= "delete"  onClick={DeleteTodo} >{" "}삭제</button>
           </div>
         )}
       </div>
