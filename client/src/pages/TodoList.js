@@ -74,9 +74,9 @@ function TodoList (){
               />
             <button className= "save"  type='submit'>저장</button>
 
-              <div className="todo">
+              <div className="todo-list">
               {todoList.map((todo) => { return (
-                <div>
+                <div className="todo">
                     <Todo todoContent={todo} getTodoList={getTodoList} ></Todo>
                 </div>
               )
