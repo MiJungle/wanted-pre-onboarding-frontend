@@ -2,6 +2,10 @@ import  {api}  from "../shared/api";
 import  {url}  from "../shared/url";
 import { useEffect, useState } from "react";
 
+import { SmallBtn, TodoDiv,Checkbox,TodoText ,Input} from "./../style.js";
+
+
+
 function Todo ({ todoContent, getTodoList }) {
     const [clickEdit, setClickEdit] = useState(false);
     const [updateTodo, setUpdateTodo] = useState(todoContent.todo);
@@ -70,40 +74,38 @@ function Todo ({ todoContent, getTodoList }) {
     return (
       <div>
         {clickEdit ? (
-          <div className="todo">
-            <input
-            className="checkbox"
+          <TodoDiv>
+            <Checkbox
             type='checkbox'
             checked={todoContent.isCompleted}
             onChange={handleCheck}
             />
-            <input
+            <TodoText
             className = {`todo-text-${diableInput}`}
             disabled={diableInput}
             value={updateTodo}
             onChange={(e) => setUpdateTodo(e.target.value)}
             completed='default'
             />
-            <button className= "edit" onClick={()=>{editTodo();setDisableInput(''); }}> 수정</button>
-            <button className= "delete" onClick={() => {setClickEdit(false); setDisableInput('disable'); }} >취소</button>
-          </div>
+            <SmallBtn onClick={()=>{editTodo();setDisableInput(''); }}> 수정</SmallBtn>
+            <SmallBtn onClick={() => {setClickEdit(false); setDisableInput('disable'); }} >취소</SmallBtn>
+          </TodoDiv>
         ) : (
-          <div className="todo">
-            <input
-            className="checkbox"
+          <TodoDiv>
+            <Checkbox
             type='checkbox'
             checked={todoContent.isCompleted}
             onChange={handleCheck}
             />
-            <input 
+            <TodoText 
             className = {`todo-text-${diableInput}`}
             disabled={diableInput}
             value={todoContent.todo}
             completed={todoContent.isCompleted ? "line-through" : "default"}
             />
-            <button className= "edit" onClick={()=>{setClickEdit(true);setDisableInput(''); }} >수정</button>
-            <button className= "delete"  onClick={DeleteTodo} >{" "}삭제</button>
-          </div>
+            <SmallBtn onClick={()=>{setClickEdit(true);setDisableInput(''); }} >수정</SmallBtn>
+            <SmallBtn  onClick={DeleteTodo} >{" "}삭제</SmallBtn>
+          </TodoDiv>
         )}
       </div>
     );
