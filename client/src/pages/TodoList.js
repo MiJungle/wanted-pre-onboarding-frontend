@@ -71,7 +71,6 @@ function TodoList (){
                 onChange={(e) => {
                   setTodoContent(e.target.value);
                 }}
-                required
               />
             <SmallBtn>저장</SmallBtn>
 
