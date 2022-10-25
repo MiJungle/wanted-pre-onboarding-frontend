@@ -12,7 +12,13 @@ function Todo ({ todoContent, getTodoList }) {
     useEffect(() => {
       setUpdateTodo(todoContent.todo);
     }, []);
-  
+
+    function FocusCursor(){
+      console.log(disableInput)
+      if(disableInput ===""){
+        document.getElement.ById("todo-text-disable").focus();
+      }}
+
     const DeleteTodo = () => {
       api
         .delete(`${url.Todo}/${todoContent.id}`, {
@@ -79,13 +85,13 @@ function Todo ({ todoContent, getTodoList }) {
             onChange={handleCheck}
             />
             <TodoText
-            className = {`todo-text-${disableInput}`}
+            id = {`todo-text-${disableInput}`}
             disabled={disableInput}
             value={updateTodo}
             onChange={(e) => setUpdateTodo(e.target.value)}
             completed='default'
             />
-            <SmallBtn onClick={()=>{editTodo();setDisableInput(''); }}> 수정</SmallBtn>
+            <SmallBtn onClick={()=>{editTodo();setDisableInput(''); FocusCursor();}}> 수정</SmallBtn>
             <SmallBtn onClick={() => {setClickEdit(false); setDisableInput('disable'); }} >취소</SmallBtn>
           </TodoDiv>
         ) : (
@@ -96,12 +102,12 @@ function Todo ({ todoContent, getTodoList }) {
             onChange={handleCheck}
             />
             <TodoText 
-            className = {`todo-text-${disableInput}`}
+            id = {`todo-text-${disableInput}`}
             disabled={disableInput}
             value={todoContent.todo}
             completed={todoContent.isCompleted ? "line-through" : "default"}
             />
-            <SmallBtn onClick={()=>{setClickEdit(true);setDisableInput(''); }} >수정</SmallBtn>
+            <SmallBtn onClick={()=>{setClickEdit(true);setDisableInput(''); FocusCursor()}} >수정</SmallBtn>
             <SmallBtn  onClick={DeleteTodo} >{" "}삭제</SmallBtn>
           </TodoDiv>
         )}
