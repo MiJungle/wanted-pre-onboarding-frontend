@@ -18,6 +18,7 @@ exports.list = async (ctx) => {
 };
 
 exports.create = async (ctx) => {
+
    const {
     title,
     authors,
