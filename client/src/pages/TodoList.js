@@ -29,7 +29,7 @@ function TodoList (){
   
     useEffect(() => {
         if (!localStorage.getItem(url.TOKEN_NAME)) {
-          navigate("/");
+          // navigate("/");
         } else {
           getTodoList();
         }
