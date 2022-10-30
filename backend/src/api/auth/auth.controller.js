@@ -42,13 +42,14 @@ exports.localRegister = async (ctx) => {
     
     let token = null;
     try {
-        token = await account.generateToken();
+        token = await account.generateToken();// 회원가입에서 토큰을 왜 발행하지?
     } catch (e) {
         ctx.throw(500, e);
     }
 
     ctx.cookies.set('access_token', token, { httpOnly: true, maxAge: 1000 * 60 * 24 * 7})
     ctx.body = account.profile; // 프로필 정보로 응답합니다.
+    console.log("ctx",ctx)
 };
 
 // 로컬 로그인

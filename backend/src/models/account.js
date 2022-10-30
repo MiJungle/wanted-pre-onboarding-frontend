@@ -53,7 +53,7 @@ Account.statics.localRegister = function({ username, email, password }){
         email,
         password: hash(password)
     });
-    return account.save();
+    return account.save(); //mongoDB save
 }
 
 Account.methods.validatePassword = function(password){
