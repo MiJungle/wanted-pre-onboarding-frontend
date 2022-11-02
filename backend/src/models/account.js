@@ -6,7 +6,7 @@ const { generateToken } = require('lib/token');
 function hash(password) {
     return crypto.createHmac('sha256', process.env.SECRET_KEY).update(password).digest('hex');
 }
-
+// SECRET_KEY 로 Hmac sha256 한다음 password를 업데이트하고, hex로 변경
 const Account = new Schema({
     profile: {
         username: String,
@@ -27,6 +27,10 @@ const Account = new Schema({
     thoughtCount: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 })
+//create methods by using statics, methods
+//메소드를 만들땐, 스키마를 모델화 하기 전에, .statics 혹은 .methods 를 사용하여 정의를 해주어야한다.
+
+
 
 Account.statics.findByUsername = function(username){
     return this.findOne({'profile.username': username}).exec();
@@ -34,7 +38,7 @@ Account.statics.findByUsername = function(username){
 
 Account.statics.findByEmail = function(email){
     return this.findOne({email}).exec();
-}
+}//mongoose 찾는 부분
 
 Account.statics.findByEmailOrUsername = function({username,email}){
     return this.findOne({
@@ -69,3 +73,4 @@ Account.methods.generateToken = function(){
     return generateToken(payload, 'account');
 }
 module.exports = mongoose.model('Account', Account);
+//첫번째 인자가 db 이름, 자동으로 복수 형태로 입력됨.

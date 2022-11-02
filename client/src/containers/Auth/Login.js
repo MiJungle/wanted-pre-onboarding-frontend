@@ -5,8 +5,11 @@ import styled from 'styled-components'
 import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input } from "../../style.js"
 import oc from 'open-color';
 import * as authActions from '../../redux/modules/auth';
+import * as userActions from '../../redux/modules/user'
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import storage from '../../lib/storage';
 
 const AuthButton = styled.button`
     background-color:hsl(155, 71%, 53%);
@@ -58,10 +61,30 @@ class Login extends Component {
         const { AuthActions } = this.props;
         AuthActions.initializeForm('login')
     }
+    
+    handleLocalLogin = async()=> {
+        console.log('clicked')
+        const { form, AuthActions, UserActions, history } = this.props;
+        const { email, password } = form.toJS();
 
+        try {
+            await AuthActions.localLogin({email, password});
+            const loggedInfo = this.props.result.toJS();
+
+            UserActions.setLoggedInfo(loggedInfo);
+            storage.set('loggedInfo', loggedInfo);
+            window.location.href = '/'
+
+        } catch (e) {
+            console.log('a');
+            this.setError('잘못된 계정정보입니다.');
+        }
+
+
+    }
      render(){
         const { email, password } = this.props.form.toJS();
-        const { handleChange } = this;
+        const { handleChange , handleLocalLogin} = this;
     
   
         return (
@@ -71,19 +94,21 @@ class Login extends Component {
                         Login
                         <SignupFormbox>
                             <Input 
+                            name="email"
                             placeholder="이메일"
-                            // value = {email}
+                            value = {email}
                             onChange = {handleChange}
                             />
                         </SignupFormbox>
                         <SignupFormbox>
                             <Input 
+                            name= "password"
                             placeholder="비밀번호"
-                            // value = {password}
+                            value = {password}
                             onChange = {handleChange}
                             />
                         </SignupFormbox>
-                        <AuthButton>로그인</AuthButton>
+                        <AuthButton type="button" onClick = {handleLocalLogin}>로그인</AuthButton>
                         <RightAlignedLink><Link to="/auth/register">회원가입</Link></RightAlignedLink>
                     </SignupForm>
                 </SignupContainer>
@@ -96,9 +121,12 @@ class Login extends Component {
 
 export default connect(
     (state) => ({
-        form: state.auth.getIn(['login', 'form'])
+        form: state.auth.getIn(['login', 'form']),
+        error: state.auth.getIn(['login','error']),
+        result: state.auth.get('result')
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UserActions: bindActionCreators(userActions, dispatch)
     })
 )(Login);

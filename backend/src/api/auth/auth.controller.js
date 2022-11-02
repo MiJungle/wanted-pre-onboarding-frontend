@@ -19,7 +19,8 @@ exports.localRegister = async (ctx) => {
     let existing = null;
     try {
         existing = await Account.findByEmailOrUsername(ctx.request.body);
-        console.log(existing)
+        console.log("-------중복노!!!!",existing)
+
     } catch (e) {
         ctx.throw(500, e);
     }
@@ -30,6 +31,9 @@ exports.localRegister = async (ctx) => {
             error: '오류오류',
             key: existing.email === ctx.request.body.email ? 'email' : 'username'
         };
+        console.log(ctx)
+        console.log(ctx.body)
+
         return;
     }
 
@@ -42,14 +46,17 @@ exports.localRegister = async (ctx) => {
     
     let token = null;
     try {
-        token = await account.generateToken();// 회원가입에서 토큰을 왜 발행하지?
+        token = await account.generateToken();// 회원가입에서 토큰을 왜 발행하지?-> 로그인 페이지로 이동시 토큰 발행 필요없음
+        // 회원가입시 홈페이지로 이동하게끔 구현했기 때문에 토큰 발행후, local storage에 담아야함.
     } catch (e) {
         ctx.throw(500, e);
     }
 
-    ctx.cookies.set('access_token', token, { httpOnly: true, maxAge: 1000 * 60 * 24 * 7})
+    ctx.cookies.set('access_token', token, { httpOnly: true, maxAge: 1000 * 60 * 24 * 7})// 1000ms * 60s * 60min * 24 hr * 7 days
+    //name:'access_token' value: token
+    // leave httpOnly option to be true when not using the cookie in the client side code
     ctx.body = account.profile; // 프로필 정보로 응답합니다.
-    console.log("ctx",ctx)
+
 };
 
 // 로컬 로그인
@@ -102,7 +109,7 @@ exports.exists = async (ctx) => {
         ctx.throw(500,e);
     }
     ctx.body = {
-        exists: account !== null
+        exists: account !== null // 응답 데이터는 { exists: true } 형식
     };
 };
 

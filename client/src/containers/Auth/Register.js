@@ -4,11 +4,15 @@ import { AuthContent , AuthError} from '../../components/Auth';
 import styled from 'styled-components'
 import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input } from "../../style.js"
 import oc from 'open-color';
+import storage from '../../lib/storage';
 
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as authActions from '../../redux/modules/auth';
+import * as userActions from '../../redux/modules/user'
 import { isEmail, isLength, isAlphanumeric } from 'validator';
+import { useNavigate } from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 
 
 const AuthButton = styled.button`
@@ -27,8 +31,6 @@ const AuthButton = styled.button`
     text-transform: uppercase;
     align-self: center;
 `
-
-
 const RightAlignedLink = styled.button`
     margin-top: 1rem;
     margin-right: 2rem;
@@ -43,6 +45,7 @@ const RightAlignedLink = styled.button`
 `
 
 class Register extends Component{
+
     setError = (message) => {
         const { AuthActions } = this.props;
         AuthActions.setError({
@@ -51,6 +54,7 @@ class Register extends Component{
         });
     }
     handleChange = (e) => {
+
         const { AuthActions } = this.props;
         const { name, value } = e.target;
 
@@ -63,12 +67,12 @@ class Register extends Component{
         if(name.indexOf('password')> -1 || !validation) return;
     }
 
-    validate = {
+    validate = { //입력값 검사하는 객체
         email: (value) => {
-            if(!isEmail(value)){
-                this.setError('잘못된 이메일 형식 입니다.');
-                return false;
-            }
+            // if(!isEmail(value)){
+            //     this.setError('잘못된 이메일 형식 입니다.');
+            //     return false;
+            // }
             return true;
         },
         username: (value) => {
@@ -96,16 +100,55 @@ class Register extends Component{
         }
     }
 
-    componentWillUnmount() {
-        const { AuthActions } = this.props;
-        AuthActions.initializeForm('register')
-    }
+    // componentWillUnmount() {
+    //     const { AuthActions } = this.props;
+    //     AuthActions.initializeForm('register')
+    // }
+
+    handleLocalRegister = async() =>  {
+        // const navigate = useNavigate();
+
+        const { form, AuthActions, error, history } = this.props;
+        const { email, username, password, passwordConfirm } = form.toJS()
+        const { validate } = this;
+
+        if(error) return;
+        if(!validate['email'](email)
+            || !validate['username'](username)
+            || !validate['password'](password)
+            || !validate['passwordConfirm'](passwordConfirm))
+                { return;}  
+        
+            try {
+                await AuthActions.localRegister({
+                    email, username, password
+                });
+  
+                const loggedInfo = this.props.result.toJS();
+
+                storage.set('loggedInfo', loggedInfo);
+                userActions.setLoggedInfo(loggedInfo);
+                userActions.setValidated(true);
+                window.location.href = '/'
+
+            }catch(e){
+
+                if(e.response.status===409){
+                    const { key } = e.response.data;
+                    const message = key ==='email'? '이미 존재하는 이메일 입니다.': '이미 존재하는 아이디입니다.'
+                    return this.setError(message);
+                }
+                console.log('409')
+                this.setError('알 수 없는 에러가 발생했습니다.')
+            } 
+
+        }
          
     render(){
+
         const { error } = this.props;
         const { email, username, password, passwordConfirm } = this.props.form.toJS();
-        const { handleChange } = this;
-        console.log(error)
+        const { handleChange, handleLocalRegister } = this;
 
         return (
             <SignupContainer>
@@ -122,26 +165,32 @@ class Register extends Component{
                 </SignupFormbox>
                 <SignupFormbox>
                     <Input 
+                        name= "username"
                         placeholder="아이디"
+                        value = {username}
                         onChange = {handleChange}
                         />                
                 </SignupFormbox>
                 <SignupFormbox>
                     <Input 
+                        name= 'password'
                         placeholder="비밀번호"
+                        value = {password}
                         onChange = {handleChange}
                     />    
                 </SignupFormbox>
                 <SignupFormbox>
                     <Input 
+                        name = 'passwordConfirm'
                         placeholder="비밀번호 확인"
+                        value = {passwordConfirm}
                         onChange = {handleChange}
                     />    
                     {
-                        error && <AuthError>{error}</AuthError>
+                        error? <div>{error}</div>:<div></div>
                     }        
                 </SignupFormbox>
-                <AuthButton>회원가입</AuthButton>
+                <AuthButton type="button" onClick ={handleLocalRegister }>회원가입</AuthButton>
                 <RightAlignedLink><Link to="/auth/login">로그인</Link></RightAlignedLink>
             </SignupForm>
         </SignupContainer>
@@ -151,12 +200,16 @@ class Register extends Component{
 }
 }
 export default connect(
-    (staet) => ({
-        form: staet.auth.getIn(['register','form'])
+    (state) => ({
+        form: state.auth.getIn(['register','form']),
+        error: state.auth.getIn(['register', 'error']),
+        exists: state.auth.getIn(['register', 'exists']),
+        result: state.auth.get('result')
     }),
     (dispatch) => ({
-        AuthActions: bindActionCreators(authActions, dispatch)
-    })
+        AuthActions: bindActionCreators(authActions, dispatch),
+        UserActions: bindActionCreators(userActions, dispatch)
+    })//authActions를 Register Props(AuthActions) 로 bind 해주는 코드
 )(Register);
 
 

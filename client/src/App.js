@@ -5,7 +5,6 @@ import SignUp from './pages/SignUp';
 import { Home, Auth } from './pages'
 import HeaderContainer from './containers/Base/HeaderContainer'
 import { Login, Register } from './containers/Auth'
-
 function App() {
   return (
   <Routes>
