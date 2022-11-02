@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { AuthContent , AuthError} from '../../components/Auth';
 import styled from 'styled-components'
 import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input } from "../../style.js"
 import oc from 'open-color';
@@ -11,8 +10,6 @@ import {bindActionCreators} from 'redux';
 import * as authActions from '../../redux/modules/auth';
 import * as userActions from '../../redux/modules/user'
 import { isEmail, isLength, isAlphanumeric } from 'validator';
-import { useNavigate } from "react-router-dom";
-import { withRouter } from 'react-router-dom'
 
 
 const AuthButton = styled.button`

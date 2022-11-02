@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import { AuthContent } from '../../components/Auth';
 import styled from 'styled-components'
 import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input } from "../../style.js"
 import oc from 'open-color';
