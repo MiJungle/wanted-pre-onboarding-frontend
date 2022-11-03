@@ -1,7 +1,4 @@
 import {BrowserRouter, Route, Routes, } from 'react-router-dom'
-import SignIn from './pages/SignIn'
-import TodoList from './pages/TodoList'
-import SignUp from './pages/SignUp';
 import { Home, Auth } from './pages'
 import HeaderContainer from './containers/Base/HeaderContainer'
 import { Login, Register } from './containers/Auth'

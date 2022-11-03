@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import './App.css';
 
 const SignupContainer = styled.div`
     text-align: center;
@@ -144,7 +145,7 @@ export {
     SmallBtn,
     TodoDiv,
     Checkbox,
-    TodoText
+    TodoText,
 };
 
 
