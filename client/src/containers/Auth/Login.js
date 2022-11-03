@@ -1,7 +1,8 @@
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input } from "../../style.js"
+import { SignupContainer,SignupForm,SignupFormbox,WarningMessage,ActiveBtn,UnactiveBtn,Input,  } from "../../style.js"
 import oc from 'open-color';
 import * as authActions from '../../redux/modules/auth';
 import * as userActions from '../../redux/modules/user'
@@ -25,9 +26,9 @@ const AuthButton = styled.button`
     transition: transform 3ms ease-in;
     text-transform: uppercase;
     align-self: center;
+    cursor: pointer;
+
 `
-
-
 const RightAlignedLink = styled.button`
     margin-top: 1rem;
     margin-right: 2rem;
@@ -40,10 +41,27 @@ const RightAlignedLink = styled.button`
         color: ${oc.gray[7]};
     }
 `
-
+const ErrorMessage = styled.div`
+    color: red;
+    `
 
 class Login extends Component {
-    
+
+     maskingName = (e) => {
+        console.log(e)
+        let value = e.target.value
+
+        if (value.length === 2) {
+            console.log(">2")
+            console.log("d: ", document.login)
+            // document.form1.email.value = 123
+          return value.replace(/(?<=.{1})./gi, '*');
+        } else if (value.length > 2) {
+          return value.replace(/(?<=.{2})./gi, '*');
+        } else {
+          return value;
+        }
+      };
     handleChange = (e) => {
         const { AuthActions } = this.props;
         const { name, value } = e.target;
@@ -55,14 +73,20 @@ class Login extends Component {
         })
 
      }
-
+    setError = (message) => {
+        const { AuthActions } = this.props;
+        AuthActions.setError({
+            form: 'login',
+            message
+        });
+        return false
+    }
     componentWillUnmount() {
         const { AuthActions } = this.props;
         AuthActions.initializeForm('login')
     }
     
     handleLocalLogin = async()=> {
-        console.log('clicked')
         const { form, AuthActions, UserActions, history } = this.props;
         const { email, password } = form.toJS();
 
@@ -75,7 +99,6 @@ class Login extends Component {
             window.location.href = '/'
 
         } catch (e) {
-            console.log('a');
             this.setError('잘못된 계정정보입니다.');
         }
 
@@ -83,36 +106,39 @@ class Login extends Component {
     }
      render(){
         const { email, password } = this.props.form.toJS();
-        const { handleChange , handleLocalLogin} = this;
-    
+        const { handleChange , handleLocalLogin, maskingName} = this;
+        const { error } = this.props
   
         return (
-
                 <SignupContainer> 
-                    <SignupForm>
+                    <SignupForm id="login">
                         Login
                         <SignupFormbox>
                             <Input 
                             name="email"
                             placeholder="이메일"
                             value = {email}
-                            onChange = {handleChange}
+                            // onfocus="this.value=document.form1.id.value"
+                            onChange ={(e)=> {handleChange(e);maskingName(e)}}
                             />
                         </SignupFormbox>
                         <SignupFormbox>
                             <Input 
                             name= "password"
                             placeholder="비밀번호"
+                            type="password"
                             value = {password}
                             onChange = {handleChange}
                             />
                         </SignupFormbox>
+                        {
+                            error && <div>{error}</div>
+
+                        }
                         <AuthButton type="button" onClick = {handleLocalLogin}>로그인</AuthButton>
                         <RightAlignedLink><Link to="/auth/register">회원가입</Link></RightAlignedLink>
                     </SignupForm>
                 </SignupContainer>
-
-
 
         );
 }
