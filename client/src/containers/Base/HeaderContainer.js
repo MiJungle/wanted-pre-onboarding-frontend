@@ -26,7 +26,10 @@ const Login = styled.button`
 
 `
 class HeaderContainer extends Component{
+    componentWillMount(){
+        console.log(window)
 
+    }
     render(){
 
 

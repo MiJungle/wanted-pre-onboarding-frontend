@@ -46,21 +46,23 @@ const ErrorMessage = styled.div`
     `
 
 class Login extends Component {
+    
+    email = {
+        mask: "",
+    }
+     maskingName = (mask) => {
 
-     maskingName = (e) => {
-        console.log(e)
-        let value = e.target.value
-
-        if (value.length === 2) {
-            console.log(">2")
-            console.log("d: ", document.login)
+        if (mask.length === 2) {
             // document.form1.email.value = 123
-          return value.replace(/(?<=.{1})./gi, '*');
-        } else if (value.length > 2) {
-          return value.replace(/(?<=.{2})./gi, '*');
+          return mask.replace(/(?<=.{1})./gi, '*');
+        } else if (mask.length > 2) {
+          return mask.replace(/(?<=.{2})./gi, '*');
         } else {
-          return value;
+          return mask;
         }
+        this.setState({
+            mask: mask.substring(0, mask.length) || ''
+        })
       };
     handleChange = (e) => {
         const { AuthActions } = this.props;
@@ -117,7 +119,7 @@ class Login extends Component {
                             <Input 
                             name="email"
                             placeholder="이메일"
-                            value = {email}
+                            value = {this.email.mask}
                             // onfocus="this.value=document.form1.id.value"
                             onChange ={(e)=> {handleChange(e);maskingName(e)}}
                             />
