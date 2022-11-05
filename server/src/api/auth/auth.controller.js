@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const Account = require('models/Account');
+const Account = require('models/account');
 
 exports.localRegister = async (ctx) => {
     // 데이터 검증
