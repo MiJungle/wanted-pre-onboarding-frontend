@@ -9,6 +9,7 @@ exports.list = async (ctx) => {
     } catch(e) {
         return ctx.throw(500,e);
     }
+    console.log(questions[0])
 
     ctx.body = questions
 }
