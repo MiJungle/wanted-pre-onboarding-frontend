@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import {ProgressBarLine} from 'react-progressbar-line'
 import * as QuestionAPI from '../lib/api/auth';
+import * as answerActions from '../redux/modules/answer'
 // https://reactjsexample.com/a-linear-progressbar-component-for-react/
 // import * as AuthAPI from '../../lib/api/auth';
+
 
 const QuestionForm = styled.div`
     margin: auto;
@@ -53,34 +55,46 @@ const AnswerChoiceContainer = styled.div`
 
 
 function Question(){
-
-  const [Questions, SetQuestions] = useState([]);
-  const [Answers, SetAnswers] = useState([])
-  const [QuestionIndex, SetQuestionIndex] = useState(0)
-  const { id } = useParams(); 
+  const [id, setId] = useState(0)
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([])
+  const [questionIndex, setQuestionIndex] = useState(0)
+  const [type, setType]= useState([1,2,3]);
+  // const { id } = useParams(); 
+  let arr = []
 
   useEffect(()=> {
       checkIndex()
-      
       async function getQuestions(){
       await QuestionAPI.surveyQuestion()
       .then(res => {
-          SetQuestions(res.data[QuestionIndex]);
-          SetAnswers(res.data[QuestionIndex].A)
+          setQuestions(res.data[questionIndex]);
+          setAnswers(res.data[questionIndex].A)
       })
   }
   getQuestions();
-  }, [QuestionIndex])
+  }, [questionIndex])
 
   const checkIndex = () => {
-    if(QuestionIndex === 5){
-      window.location.href = '/result'
+    if(questionIndex === 5){
+      window.location.href = `/result/${id}`
     }
   }
+ 
+
+
+  function addType(value){
+    setType([...value, ...type])
+    console.log(type)
+    setId(5)
+
+  }
+
+  // state.concat(action.mbti)
   return(
     <QuestionForm>
         <ProgressBarLine
-        value={50}
+        value={questionIndex*10}
         min={0}
         max={100}
         strokeWidth={1}
@@ -98,12 +112,12 @@ function Question(){
             fontSize: '17px'
           }
         }}
-      />    <QuestionText key={QuestionIndex}> Q{Questions.Q}</QuestionText>
+      />    <QuestionText key={questionIndex}> Q{questions.Q}</QuestionText>
             <AnswerChoiceContainer>
 
               {
-                Answers.map(({answer})=> (
-                  <AnswerChoice key={answer} onClick={()=>SetQuestionIndex(QuestionIndex+1)}>{answer}</AnswerChoice>
+                answers.map(({answer,type})=> (
+                  <AnswerChoice key={answer} onClick={()=>{setQuestionIndex(questionIndex+1); addType(type)}}>{answer}</AnswerChoice>
                 ))
               }
             </AnswerChoiceContainer>

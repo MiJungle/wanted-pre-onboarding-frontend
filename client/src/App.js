@@ -10,7 +10,7 @@ function App() {
       {/* <Route path='/auth' element={<Auth/>}></Route> */}
     {/* </Route> */}
       <Route path='/question' element = {< Question/>}/>
-      <Route path="result" element={<Result/>}/> 
+      <Route path="result/:id" element={<Result/>}/> 
 
       <Route path="/auth/login" element={<Login/>}/>
       <Route path="/auth/register" element={<Register/>}/> 
