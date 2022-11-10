@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 
 const HomeForm = styled.div`
-    background-color: red;
     margin: auto;
     height: 200px;
     width: 620px;
@@ -12,8 +11,6 @@ const HomeForm = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-left: 0.25rem solid rgb(112, 93, 242);
-    border-right: 0.25rem solid rgb(112, 93, 242);
     padding-bottom: 1rem;
     flex: 1;
     overflow-y: auto;
@@ -46,8 +43,10 @@ const TestStartBtn = styled.button`
     height: 100px;
     margin: 30px 0;
     border-radius: 20px;
-    background-color: #ff5100;
+    background-color: #00AE58;
+    color: white;
     padding: 30px 30px;
+    border: none;
 `
 const TestStartBtnVisits = styled.div`
 `

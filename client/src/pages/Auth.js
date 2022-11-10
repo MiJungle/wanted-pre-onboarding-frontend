@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { Login, Register } from '../containers/Auth';
-import { Route } from 'react-router-dom';
+// import React, { Component } from 'react';
+// import { Login, Register } from '../containers/Auth';
+// import { Route } from 'react-router-dom';
 
 
-class Auth extends Component {
+// class Auth extends Component {
     
-render(){
-    return (
+// render(){
+//     return (
     
-        <div>
-            {/* <Route path="/auth/login" component={Login}/>
-            <Route path="/auth/register" component={Register}/> */}
+//         <div>
+//             {/* <Route path="/auth/login" component={Login}/>
+//             <Route path="/auth/register" component={Register}/> */}
 
-        </div>
+//         </div>
      
-    )
-}
-}
-export default Auth;
+//     )
+// }
+// }
+// export default Auth;

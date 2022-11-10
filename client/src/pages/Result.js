@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
 
 const ResultContainer = styled.div`
     background-color: red;
@@ -19,9 +20,23 @@ const ResultContainer = styled.div`
 
 function Result() {
 
+    const { id } = useParams()
+    const [result, setResult] = useState('붉은 노을')
+
+//result logic 
+//배열에서 type이 가장 많이 불린것을 id 에 넣고 result를 가지고 온다. 
+
+    useEffect(()=>{
+        changeResult()
+    })
+    function changeResult(){
+        setResult(id)
+    }
+    
+    
     return(
         <ResultContainer>
-        붉은 노을 히비스커스
+        {result}
 
     </ResultContainer>
 

@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes, } from 'react-router-dom'
-import { Home, Auth, Question, Result } from './pages'
+import { Home, Question, Result } from './pages'
 import HeaderContainer from './containers/Base/HeaderContainer'
 import { Login, Register } from './containers/Auth'
 function App() {
@@ -7,10 +7,10 @@ function App() {
   <Routes>
     {/* <Route element={<HeaderContainer/>}> */}
       <Route path='/' element={<Home/>}></Route>
-      <Route path='/auth' element={<Auth/>}></Route>
+      {/* <Route path='/auth' element={<Auth/>}></Route> */}
     {/* </Route> */}
       <Route path='/question' element = {< Question/>}/>
-      <Route path="result" element={<Result/>}/> 
+      <Route path="result/:id" element={<Result/>}/> 
 
       <Route path="/auth/login" element={<Login/>}/>
       <Route path="/auth/register" element={<Register/>}/> 
